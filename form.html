@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html>
+    <head>
+
+      <title>Using Ajax to submit the data in FormValidation v0.8.1 with jQuery and Bootstrap4 modal.</title>
+
+      <!-- Bootstrap4 CSS -->
+      <link rel="stylesheet" href="dist/vendor/bs-4/css/bootstrap.min.css">
+
+      <!-- Form Validation v0.8.1 CSS -->
+      <link rel="stylesheet" href="dist/vendor/formvalidation/css/formValidation.min.css">
+
+      <!-- Bootstrap-select CSS -->
+      <link rel="stylesheet" href="dist/vendor/bootstrap-select/css/bootstrap-select.min.css">
+
+      <!-- FontAwesome -->
+      <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+      <!-- Custom CSS -->
+      <link rel="stylesheet" href="dist/css/myform.css">
+
+    </head>
+
+    <body>
+
+        <div class="container">
+          <div class="page-header">
+            <h2>Using Ajax to submit data</h2>
+          </div>
+          <!-- Submit Modal -->
+          <div class="modal fade" id="submitModal" tabindex="-1" role="dialog" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <div id="submitModalLabel" class="modal-title h5 hellip-loading">Validating form data&nbsp;</div>
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div class="modal-body">
+                  <p id="submitModalParagraph">If the send confirmation message does not appear, verify that the form fields have been filled in correctly.</p>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-lg-6">
+              <!-- Form -->
+              <form id="contactForm" class="my-form" method="post" enctype="multipart/form-data" action="dist/php/send.php">
+                <div class="form-group">
+                  <label class="col-form-label" for="name-input">Name</label>
+                  <input type="text" class="form-control" id="name-input" name="nome">
+                </div>
+                <div class="form-group">
+                  <label class="col-form-label" for="email-input">E-mail</label>
+                  <input type="email" class="form-control" id="email-input" name="email">
+                </div>
+                <div class="form-group">
+                  <label class="col-form-label" for="phone-input">Phone</label>
+                  <input type="text" id="phone" class="form-control" maxlength="15" name="phone">
+                </div>
+                <div class="form-group">
+                  <label for="formSelect">Choose a real estate</label>
+                  <select id="formSelect" class="form-control selectpicker" data-style="btn-link" title="Select ..." name="realEstate">
+                    <option value="real.one@realestate.com" tabindex="0">Real One</option>
+                    <option value="real.two@realestate.com" tabindex="0">Real Two</option>
+                  </select>
+                </div>
+                <button type="submit" id="btnSubmit" class="btn btn-success btn-submit" data-toggle="modal" data-target="#submitModal">SEND</button>
+              </form>
+            </div>
+          </div>
+        </div>
+
+        <!-- jQuery JS -->
+        <script src="dist/vendor/jquery/jquery.min.js"></script>
+
+        <!-- BS4 JS -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js" integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh" crossorigin="anonymous"></script>
+        <script src="dist/vendor/bs-4/js/bootstrap.min.js">"></script>
+
+        <!-- FormValidation v0.8.1 JS -->
+        <script src="dist/vendor/formvalidation/js/formValidation.min.js"></script>
+        <script src="dist/vendor/formvalidation/js/framework/bootstrap4.min.js"></script>
+
+        <!-- Bootstrap Select -->
+        <script src="dist/vendor/bootstrap-select/js/bootstrap-select.min.js"></script>
+
+        <!-- Main JS -->
+        <script src="dist/js/myform.js"></script>
+
+    </body>
+</html>
