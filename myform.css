@@ -1,0 +1,47 @@
+.page-header {
+  margin-top: 40px;
+}
+
+#contactForm .bootstrap-select>.dropdown-toggle {
+  border: 1px solid #ced4da;
+}
+
+#contactForm .btn-link {
+  color: #495057;
+  ;
+}
+
+.fv-form-bootstrap4:not(.form-inline) label~.fv-control-feedback {
+  top: 37px;
+}
+
+.fv-control-feedback {
+  right: 15px;
+}
+
+.fv-form-bootstrap4 .has-warning label,
+.fv-form-bootstrap4 .has-warning .fv-control-feedback {
+  color: #e67e22;
+}
+
+.hellip-loading::after {
+  overflow: hidden;
+  display: inline-block;
+  vertical-align: bottom;
+  -webkit-animation: ellipsis steps(4, end) 900ms infinite;
+  animation: ellipsis steps(4, end) 900ms infinite;
+  content: "\2026";
+  width: 0
+}
+
+@keyframes ellipsis {
+  to {
+    width: 1.25rem
+  }
+}
+
+@-webkit-keyframes ellipsis {
+  to {
+    width: 1.25rem
+  }
+}
