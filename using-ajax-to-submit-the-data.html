@@ -1,0 +1,273 @@
+<!DOCTYPE html>
+<html>
+    <head>
+        <title>Using Ajax to submit the data in FormValidation v0.8.1 with jQuery and Bootstrap4 modal.</title>
+
+        <!-- Bootstrap4 CSS -->
+        <link rel="stylesheet" href="dist/vendor/bs-4/css/bootstrap.min.css">
+
+        <!-- Form Validation v0.8.1 CSS -->
+        <link rel="stylesheet" href="dist/vendor/formvalidation/css/formValidation.min.css">
+
+        <!-- Bootstrap-select CSS -->
+        <link rel="stylesheet" href="dist/vendor/bootstrap-select/css/bootstrap-select.min.css">
+
+        <!-- FontAwesome -->
+        <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.min.css">
+
+        <!-- Custom CSS -->
+        <style>
+            .page-header {
+              margin-top: 40px;
+            }
+
+            #contactForm .bootstrap-select>.dropdown-toggle {
+              border: 1px solid #ced4da;
+            }
+
+            #contactForm .btn-link {
+              color: #495057;
+              ;
+            }
+
+            .fv-form-bootstrap4:not(.form-inline) label~.fv-control-feedback {
+              top: 37px;
+            }
+
+            .fv-control-feedback {
+              right: 15px;
+            }
+
+            .fv-form-bootstrap4 .has-warning label,
+            .fv-form-bootstrap4 .has-warning .fv-control-feedback {
+              color: #e67e22;
+            }
+
+            .hellip-loading::after {
+              overflow: hidden;
+              display: inline-block;
+              vertical-align: bottom;
+              -webkit-animation: ellipsis steps(4, end) 900ms infinite;
+              animation: ellipsis steps(4, end) 900ms infinite;
+              content: "\2026";
+              width: 0
+            }
+
+            @keyframes ellipsis {
+              to {
+                width: 1.25rem
+              }
+            }
+
+            @-webkit-keyframes ellipsis {
+              to {
+                width: 1.25rem
+              }
+            }
+        </style>
+
+    </head>
+
+    <body>
+
+        <div class="container">
+          <div class="page-header">
+            <h2>Using Ajax to submit data</h2>
+          </div>
+          <!-- Submit Modal -->
+          <div class="modal fade" id="submitModal" tabindex="-1" role="dialog" aria-hidden="true">
+            <div class="modal-dialog" role="document">
+              <div class="modal-content">
+                <div class="modal-header">
+                  <div id="submitModalLabel" class="modal-title h5 hellip-loading">Validating form data&nbsp;</div>
+                  <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                  <span aria-hidden="true">&times;</span>
+                  </button>
+                </div>
+                <div class="modal-body">
+                  <p id="submitModalParagraph">If the send confirmation message does not appear, verify that the form fields have been filled in correctly.</p>
+                </div>
+                <div class="modal-footer">
+                  <button type="button" class="btn btn-secondary" data-dismiss="modal">Fechar</button>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-lg-6">
+              <!-- Form -->
+              <form id="contactForm" class="my-form" method="post" enctype="multipart/form-data" action="dist/php/send.php">
+                <div class="form-group">
+                  <label class="col-form-label" for="name-input">Name</label>
+                  <input type="text" class="form-control" id="name-input" name="nome">
+                </div>
+                <div class="form-group">
+                  <label class="col-form-label" for="email-input">E-mail</label>
+                  <input type="email" class="form-control" id="email-input" name="email">
+                </div>
+                <div class="form-group">
+                  <label class="col-form-label" for="phone-input">Phone</label>
+                  <input type="text" id="phone" class="form-control" maxlength="15" name="phone">
+                </div>
+                <div class="form-group">
+                  <label for="formSelect">Choose a real estate</label>
+                  <select id="formSelect" class="form-control selectpicker" data-style="btn-link" title="Select ..." name="realEstate">
+                    <option value="real.one@realestate.com" tabindex="0">Real One</option>
+                    <option value="real.two@realestate.com" tabindex="0">Real Two</option>
+                  </select>
+                </div>
+                <button type="submit" id="btnSubmit" class="btn btn-success btn-submit" data-toggle="modal" data-target="#submitModal">SEND</button>
+              </form>
+            </div>
+          </div>
+        </div>
+
+        <!-- jQuery JS -->
+        <script src="dist/vendor/jquery/jquery.min.js"></script>
+
+        <!-- BS4 JS -->
+        <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.12.3/umd/popper.min.js" integrity="sha384-vFJXuSJphROIrBnz7yo7oB41mKfc8JzQZiCq4NCceLEaO4IHwicKwpJf9c9IpFgh" crossorigin="anonymous"></script>
+        <script src="dist/vendor/bs-4/js/bootstrap.min.js">"></script>
+
+        <!-- FormValidation v0.8.1 JS -->
+        <script src="dist/vendor/formvalidation/js/formValidation.min.js"></script>
+        <script src="dist/vendor/formvalidation/js/framework/bootstrap4.min.js"></script>
+
+        <!-- Bootstrap Select -->
+        <script src="dist/vendor/bootstrap-select/js/bootstrap-select.min.js"></script>
+
+        <script>
+            $(document).ready(function() {
+
+                var bS  = $('#btnSubmit'),
+                    cF  = $('#contactForm'),
+                    sM  = $('#submitModal'),
+                    sml = $('#submitModalLabel'),
+                    smp = $('#submitModalParagraph')
+
+                // Send form with validation
+                cF.find('[name="realEstate"]')
+                    .selectpicker()
+                    .change(function(e) {
+                        cF.formValidation('revalidateField', 'realEstate');
+                    })
+                    .end()
+                    .formValidation({
+                        framework: 'bootstrap4',
+                        excluded: ':disabled',
+                        icon: {
+                            valid: 'fa fa-check',
+                            invalid: 'fa fa-times',
+                            validating: 'fa fa-refresh'
+                    },
+                    fields: {
+                        nome: {
+                            validators: {
+                                notEmpty: {
+                                    message: 'The name is required.'
+                                },
+                                regexp: {
+                                    message: 'Only alphabetical letters in this field.',
+                                    regexp: /^[A-Za-z\s]+$/
+                                },
+                                stringLength: {
+                                    min: 2,
+                                    message: 'Username must be longer than 2 characters.'
+                                }
+                            }
+                        },
+                        email: {
+                            validators: {
+                                notEmpty: {
+                                    message: 'The e-mail is required.'
+                                },
+                                emailAddress: {
+                                    message: 'Please enter a valid email address.'
+                                }
+                            }
+                        },
+                        phone: {
+                            validators: {
+                                notEmpty: {
+                                    message: 'The phone number is required.'
+                                },
+                                stringLength: {
+                                    min: 14,
+                                    message: 'Landline or cell phone with DDD.'
+                                }
+                            }
+                        },
+                        realEstate: {
+                            validators: {
+                                notEmpty: {
+                                    message: 'Selecting a real estate property is required.'
+                                }
+                            }
+                        }
+                    }
+                })
+                .on('success.form.fv', function(e) {
+                    e.preventDefault();
+
+                    var cF = $(e.target),
+                        fv = cF.data('formValidation');
+
+                    $.ajax({
+                        url: cF.attr('action'),
+                        type: 'POST',
+                        data: cF.serialize(),
+                        success: function(){
+                            sM.modal('show')
+                            sml.removeClass('hellip-loading').addClass('success').text('Your data has been sent successfully!')
+                            smp.text('We will get back to you shortly.')
+                            setTimeout(function() {
+                                sM.modal('hide')
+                                sml.removeClass('success').addClass('hellip-loading');
+                            }, 7500);
+                        },
+                        error: function(){
+                            sM.modal('show')
+                            sml.removeClass('hellip-loading').addClass('error').text('There was an error while trying to send your data.')
+                            smp.text('Please try again later.')
+                            setTimeout(function() {
+                                sM.modal('hide')
+                                sml.removeClass('error').addClass('hellip-loading');
+                            }, 7500);
+                        }
+                    });
+                });
+            });
+        </script>
+
+        <script>
+            // BR Phone mask
+            function mask(o,f){
+                v_obj=o
+                v_fun=f
+                setTimeout('execmask()',1)
+            }
+
+            function execmask(){
+                v_obj.value=v_fun(v_obj.value)
+            }
+
+            function mtel(v){
+                v=v.replace(/\D/g,'');
+                v=v.replace(/^(\d{2})(\d)/g,'($1) $2');
+                v=v.replace(/(\d)(\d{4})$/,'$1-$2');
+                return v;
+            }
+
+            function id( el ){
+                return document.getElementById( el );
+            }
+
+            window.onload = function(){
+                id('phone').onkeyup = function(){
+                    mask( this, mtel );
+                }
+            }
+        </script>
+
+    </body>
+</html>
