@@ -54,7 +54,7 @@ $(document).ready(function() {
                     },
                     stringLength: {
                         min: 14,
-                        message: 'Landline or cell phone with DDD.'
+                        message: 'Landline or cell phone, preceded by the area code.'
                     }
                 }
             },
