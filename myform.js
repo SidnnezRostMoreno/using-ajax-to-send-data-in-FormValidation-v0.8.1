@@ -1,10 +1,11 @@
 $(document).ready(function() {
 
     var bS  = $('#btnSubmit'),
-        cF  = $('#contactForm'),
         sM  = $('#submitModal'),
         sml = $('#submitModalLabel'),
-        smp = $('#submitModalParagraph')
+        smp = $('#submitModalParagraph'),
+        mH  = $('#submitModal').find('.modal-header'),
+        mF  = $('#submitModal').find('.modal-footer');
 
     // Send form with validation
     cF.find('[name="realEstate"]')
@@ -79,21 +80,25 @@ $(document).ready(function() {
             data: cF.serialize(),
             success: function(){
                 sM.modal('show')
-                sml.removeClass('hellip-loading').addClass('success').text('Your data has been sent successfully!')
+                mH.css('background-color', 'palegreen')
+                mF.css('background-color', '#f9f9f9')
+                sml.removeClass('hellip-loading').addClass('success').text('Your data has been sent successfully !')
                 smp.text('We will get back to you shortly.')
                 setTimeout(function() {
                     sM.modal('hide')
                     sml.removeClass('success').addClass('hellip-loading');
-                }, 7500);
+                }, 15000);
             },
             error: function(){
                 sM.modal('show')
-                sml.removeClass('hellip-loading').addClass('error').text('There was an error while trying to send your data.')
+                mH.css('background-color', 'tomato')
+                mF.css('background-color', '#f9f9f9')
+                sml.removeClass('hellip-loading').addClass('error').text('There was a problem with sending your data.')
                 smp.text('Please try again later.')
                 setTimeout(function() {
                     sM.modal('hide')
                     sml.removeClass('error').addClass('hellip-loading');
-                }, 7500);
+                }, 15000);
             }
         });
     });
